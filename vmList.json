@@ -4,26 +4,6 @@
         "resource_group": "Production"
     },
     {
-        "name": "App Server",
-        "resource_group": "Development"
-    },
-    {
-        "name": "File Storage",
-        "resource_group": "Storage"
-    },
-    {
-        "name": "Mail Server",
-        "resource_group": "Production"
-    },
-    {
-        "name": "Development Server",
-        "resource_group": "Development"
-    },
-    {
-        "name": "Testing Server",
-        "resource_group": "Testing"
-    },
-    {
         "name": "Proxy Server",
         "resource_group": "Network"
     }
