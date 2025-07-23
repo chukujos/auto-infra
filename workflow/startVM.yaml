@@ -1,0 +1,45 @@
+name: Start Azure VM
+
+on:
+  workflow_dispatch:
+
+jobs:
+  start-vm:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
+
+    - name: Azure CLI login
+      uses: azure/login@v1
+      with:
+        creds: ${{ secrets.AZURE_CREDENTIALS }}  # Use service principal from GitHub Secrets
+
+    - name: Start VM
+      run: |
+        RG_NAME="RG-SecureOps"
+        VM_NAME="VM-ComplianceNode01"
+        LOG_FILE="vm-start-log.txt"
+        TIMESTAMP=$(date '+%Y-%m-%d %H:%M:%S')
+
+        az vm start --resource-group "$RG_NAME" --name "$VM_NAME"
+
+        STATUS=$(az vm get-instance-view \
+          --name "$VM_NAME" \
+          --resource-group "$RG_NAME" \
+          --query "instanceView.statuses[?starts_with(code, 'PowerState/')].displayStatus" \
+          -o tsv)
+
+        if [[ "$STATUS" == "VM running" ]]; then
+          echo "$TIMESTAMP: $VM_NAME successfully started." | tee -a "$LOG_FILE"
+        else
+          echo "$TIMESTAMP: ERROR - $VM_NAME failed to start. Status: $STATUS" | tee -a "$LOG_FILE"
+          exit 1
+        fi
+
+    - name: Upload log artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: vm-start-log
+        path: vm-start-log.txt
