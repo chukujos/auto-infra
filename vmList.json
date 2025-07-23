@@ -28,10 +28,6 @@
         "resource_group": "Testing"
     },
     {
-        "name": "Monitoring Server",
-        "resource_group": "Monitoring"
-    },
-    {
         "name": "Proxy Server",
         "resource_group": "Network"
     }
