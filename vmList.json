@@ -20,10 +20,6 @@
         "resource_group": "Development"
     },
     {
-        "name": "Backup Server",
-        "resource_group": "Backup"
-    },
-    {
         "name": "Testing Server",
         "resource_group": "Testing"
     },
